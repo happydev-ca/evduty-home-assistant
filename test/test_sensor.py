@@ -89,7 +89,7 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
         self.assert_sensor_created(type=ChargingStateSensor,
                                    name='State',
                                    device_class=SensorDeviceClass.ENUM,
-                                   options=['Available', 'Charging'],
+                                   options=['Available', 'Charging', 'Offline'],
                                    value='Charging')
 
     def test_charging_session_start_date_sensor_created(self):

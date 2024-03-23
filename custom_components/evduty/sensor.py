@@ -115,7 +115,7 @@ class EnergyConsumedSensor(EVDutyTerminalDevice, SensorEntity):
 
 class ChargingStateSensor(EVDutyTerminalDevice, SensorEntity):
     _attr_device_class = SensorDeviceClass.ENUM
-    _attr_options = ['Available', 'Charging']
+    _attr_options = ['Available', 'Charging', 'Offline']
 
     def __init__(self, coordinator: EVDutyCoordinator, terminal: Terminal) -> None:
         super().__init__(coordinator, terminal, 'State')
@@ -124,6 +124,8 @@ class ChargingStateSensor(EVDutyTerminalDevice, SensorEntity):
     def native_value(self):
         if self._terminal.status == ChargingStatus.in_use:
             return 'Charging'
+	elif self._terminal.status == ChargingStatus.out_of_service:
+            return 'Offline'
         return 'Available'
 
 
