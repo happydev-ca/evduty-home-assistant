@@ -109,7 +109,6 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
         self.assert_sensor_created(type=ChargingSessionEstimatedCostSensor,
                                    name='Session Estimated Cost',
                                    state_class=SensorStateClass.TOTAL_INCREASING,
-                                   device_class=SensorDeviceClass.MONETARY,
                                    unit='$',
                                    precision=2,
                                    value=0.32)
