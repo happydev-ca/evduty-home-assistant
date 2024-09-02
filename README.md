@@ -3,7 +3,7 @@
 
 # EVduty Custom Integration for Home Assistant
 
-Use to monitor your EVduty charging stations including charging session state, estimated cost and energy consumption.
+Use to monitor and control your EVduty charging stations including charging session state, estimated cost and energy consumption.
 
 ## Installation
 
@@ -49,6 +49,12 @@ The following sensors are created for each charging station:
 
 ![Diagnostic](./.img/diagnostic.png)
 
+## Controls
+
+The maximum charging current can be set in the controls. Setting in to 0 disables the charging station.
+
+![Controls](./.img/controls.png)
+
 ## Statistics
 
 The energy consumed and the estimated cost sensors can be used in statistics.
@@ -88,6 +94,9 @@ ln -s ../../../evduty-home-assistant/custom_components/evduty .
 
 # run
 hass -c config
+
+# view
+open http://localhost:8123/
 ```
 
 ### Release version

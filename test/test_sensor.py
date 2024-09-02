@@ -23,6 +23,7 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
         entry.entry_id = 'id'
         self.coordinator = Mock(DataUpdateCoordinator)
         self.terminal = Terminal(id='123',
+                                 station_id='456',
                                  name='Test',
                                  status=ChargingStatus.in_use,
                                  charge_box_identity='A',

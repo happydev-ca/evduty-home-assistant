@@ -32,3 +32,13 @@ class EVDutyCoordinator(DataUpdateCoordinator):
                 return self.data
             else:
                 raise ConnectionError from error
+
+    async def async_set_terminal_max_charging_current(self, terminal: Terminal, current: int):
+        try:
+            async with asyncio.timeout(10):
+                await self.api.async_set_terminal_max_charging_current(terminal, current)
+                await self.async_request_refresh()
+        except EVDutyApiInvalidCredentialsError as error:
+            raise ConfigEntryAuthFailed from error
+        except EVDutyApiError as error:
+            raise ConnectionError from error
