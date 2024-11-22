@@ -21,8 +21,10 @@ Or:
 
 ### Manual
 
-- Copy the `evduty` folder your `/path/to/home-assistant/custom_components/` directory
-- Restart Home Assistant
+- Go to your Home Assistant
+- Open [HACS](https://hacs.xyz/)
+- In the right menu, select `Custom repositories`
+- Add https://github.com/happydev-ca/evduty-home-assistant to HACS Custom repositories
 
 ## Configuration
 
@@ -70,6 +72,15 @@ The energy consumed and the estimated cost sensors can be used in statistics.
   stat_type: change
   name: Annual Cost
   icon: mdi:ev-station
+```
+
+## Debug
+
+```yaml
+logger:
+  logs:
+    custom_components.evduty: debug
+    evdutyapi: debug
 ```
 
 ## Development
