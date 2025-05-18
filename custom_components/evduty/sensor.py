@@ -74,7 +74,6 @@ class PowerSensor(EVDutyTerminalDevice, SensorEntity):
 
 
 class AmpSensor(EVDutyTerminalDevice, SensorEntity):
-    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.AMPERE
 
@@ -87,7 +86,6 @@ class AmpSensor(EVDutyTerminalDevice, SensorEntity):
 
 
 class VoltSensor(EVDutyTerminalDevice, SensorEntity):
-    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_device_class = SensorDeviceClass.VOLTAGE
     _attr_native_unit_of_measurement = UnitOfElectricPotential.VOLT
 
@@ -191,7 +189,6 @@ class WifiSsidSensor(EVDutyTerminalDevice, SensorEntity):
 
 
 class WifiRssiSensor(EVDutyTerminalDevice, SensorEntity):
-    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_native_unit_of_measurement = SIGNAL_STRENGTH_DECIBELS_MILLIWATT

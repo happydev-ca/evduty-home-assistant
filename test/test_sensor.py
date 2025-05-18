@@ -64,7 +64,6 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
     def test_amp_sensor_created(self):
         self.assert_sensor_created(type=AmpSensor,
                                    name='Amp',
-                                   state_class=SensorStateClass.MEASUREMENT,
                                    device_class=SensorDeviceClass.CURRENT,
                                    unit=UnitOfElectricCurrent.AMPERE,
                                    value=8)
@@ -72,7 +71,6 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
     def test_volt_sensor_created(self):
         self.assert_sensor_created(type=VoltSensor,
                                    name='Volt',
-                                   state_class=SensorStateClass.MEASUREMENT,
                                    device_class=SensorDeviceClass.VOLTAGE,
                                    unit=UnitOfElectricPotential.VOLT,
                                    value=120)
@@ -130,7 +128,6 @@ class TestSensorCreation(IsolatedAsyncioTestCase):
         self.assert_sensor_created(type=WifiRssiSensor,
                                    name='Wi-Fi Signal Strength',
                                    entity_category=EntityCategory.DIAGNOSTIC,
-                                   state_class=SensorStateClass.MEASUREMENT,
                                    device_class=SensorDeviceClass.SIGNAL_STRENGTH,
                                    unit=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
                                    value=-72)

@@ -4,7 +4,7 @@ EVduty charging stations terminal max changing map
 
 from evdutyapi import Terminal
 from homeassistant.components.number import NumberEntity
-from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import UnitOfElectricCurrent
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -50,7 +50,6 @@ class EVDutyTerminalDevice(CoordinatorEntity):
 
 
 class MaxAmpNumber(EVDutyTerminalDevice, NumberEntity):
-    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.AMPERE
 

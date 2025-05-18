@@ -4,7 +4,7 @@ from unittest.mock import Mock, AsyncMock
 
 from evdutyapi import Terminal, ChargingStatus, ChargingSession, NetworkInfo
 from evdutyapi.charging_profile import ChargingProfile
-from homeassistant.components.sensor import SensorStateClass, SensorDeviceClass
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import UnitOfElectricCurrent
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -57,7 +57,6 @@ class TestNumberCreation(IsolatedAsyncioTestCase):
     def test_max_amp_number_created(self):
         self.assert_sensor_created(type=MaxAmpNumber,
                                    name='Max Amp',
-                                   state_class=SensorStateClass.MEASUREMENT,
                                    device_class=SensorDeviceClass.CURRENT,
                                    unit=UnitOfElectricCurrent.AMPERE,
                                    value=15,
