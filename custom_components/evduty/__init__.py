@@ -15,15 +15,15 @@ from .coordinator import EVDutyCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.NUMBER]
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    evduty_api = EVDutyApi(entry.data[CONF_USERNAME], entry.data[CONF_PASSWORD], async_get_clientsession(hass))
-    evduty_coordinator = EVDutyCoordinator(hass, evduty_api)
+async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+    evduty_api = EVDutyApi(config_entry.data[CONF_USERNAME], config_entry.data[CONF_PASSWORD], async_get_clientsession(hass))
+    evduty_coordinator = EVDutyCoordinator(hass, config_entry, evduty_api)
 
     hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = evduty_coordinator
+    hass.data[DOMAIN][config_entry.entry_id] = evduty_coordinator
 
     await evduty_coordinator.async_config_entry_first_refresh()
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
     return True
 

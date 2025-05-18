@@ -18,7 +18,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Check lint
-        run: ruff --output-format=github .
+        run: ruff check --output-format=github .
 
       - name: Test
         run: python3 -m unittest

@@ -6,7 +6,7 @@ install:
 	pip install -r requirements.txt
 
 test:
-	ruff . && \
+	ruff check && \
 	python3 -m unittest
 
 coverage:

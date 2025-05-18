@@ -5,32 +5,36 @@ from unittest.mock import Mock, AsyncMock
 
 from aiohttp import RequestInfo
 from evdutyapi import EVDutyApi, Station, Terminal, EVDutyApiInvalidCredentialsError, EVDutyApiError
-from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 
 from custom_components.evduty import EVDutyCoordinator, DOMAIN
+from test import hass_mocks
 
 
 class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
 
     async def test_set_coordinator_name_to_domain(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
         self.assertEqual(coordinator.name, DOMAIN)
 
     async def test_refresh_data_every_60_seconds(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
         self.assertEqual(coordinator.update_interval, timedelta(seconds=60))
 
     async def test_get_charging_stations(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
         station = Mock(Station)
         terminal = Mock(Terminal)
@@ -43,9 +47,10 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
         self.assertEqual(terminals, {"123": terminal})
 
     async def test_triggers_a_reauth_on_invalid_credentials_error(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
         api.async_get_stations.side_effect = EVDutyApiInvalidCredentialsError(status=HTTPStatus.BAD_REQUEST, request_info=Mock(RequestInfo), history=())
 
@@ -53,9 +58,10 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
             await coordinator._async_update_data()
 
     async def test_returns_last_data_on_simultaneous_evduty_account_usage(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
         previous_data = {"123": 'anything'}
         coordinator.data = previous_data
 
@@ -66,9 +72,10 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
         self.assertEqual(terminals, previous_data)
 
     async def test_raise_on_other_api_error(self):
-        hass = Mock(HomeAssistant)
+        hass = hass_mocks.hass_mock()
+        config_entry = hass_mocks.config_entry_mock()
         api = Mock(EVDutyApi)
-        coordinator = EVDutyCoordinator(hass=hass, api=api)
+        coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
         api.async_get_stations.side_effect = EVDutyApiError(status=HTTPStatus.BAD_REQUEST, request_info=Mock(RequestInfo), history=())
 

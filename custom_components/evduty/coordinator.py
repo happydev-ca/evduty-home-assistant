@@ -15,8 +15,9 @@ from .const import DOMAIN, LOGGER
 class EVDutyCoordinator(DataUpdateCoordinator):
     config_entry: ConfigEntry
 
-    def __init__(self, hass: HomeAssistant, api: EVDutyApi) -> None:
-        super().__init__(hass=hass, logger=LOGGER, name=DOMAIN, update_interval=timedelta(seconds=60))
+    def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry, api: EVDutyApi) -> None:
+        super().__init__(hass=hass, config_entry=config_entry, logger=LOGGER, name=DOMAIN,
+                         update_interval=timedelta(seconds=60))
         self.api = api
 
     async def _async_update_data(self) -> dict[str, Terminal]:

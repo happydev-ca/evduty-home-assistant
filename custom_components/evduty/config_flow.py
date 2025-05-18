@@ -9,7 +9,6 @@ import voluptuous as vol
 from evdutyapi import EVDutyApi, EVDutyApiInvalidCredentialsError, EVDutyApiError
 from homeassistant import config_entries
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
-from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
 from .const import DOMAIN, LOGGER
@@ -28,7 +27,7 @@ class EVDutyConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         self._reauth_entry: config_entries.ConfigEntry | None = None
 
-    async def async_step_user(self, data: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_user(self, data: dict[str, Any] | None = None):
         if data is None:
             return self.async_show_form(step_id='user', data_schema=STEP_USER_DATA_SCHEMA)
 
@@ -58,6 +57,6 @@ class EVDutyConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(step_id='user', data_schema=STEP_USER_DATA_SCHEMA, errors=errors)
 
-    async def async_step_reauth(self, data: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_reauth(self, data: dict[str, Any] | None = None):
         self._reauth_entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         return await self.async_step_user(data)
