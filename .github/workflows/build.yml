@@ -1,0 +1,48 @@
+name: Test
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.2'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check lint
+        run: ruff check --output-format=github .
+
+      - name: Test
+        run: python3 -m unittest
+        
+  release:
+    name: Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Zip the integration directory
+        shell: "bash"
+        run: |
+          cd "${{ github.workspace }}/custom_components/evduty"
+          zip evduty.zip -r ./
+
+      - name: Upload the zip file to the release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/custom_components/evduty/evduty.zip
+          generate_release_notes: true
