@@ -1,6 +1,6 @@
 # prod
 homeassistant~=2025.5.2
-evduty-api~=1.0.1
+evduty-api~=1.0.3
 voluptuous~=0.15.2
 aiohttp~=3.11.18
 
