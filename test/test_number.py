@@ -2,8 +2,7 @@ from datetime import datetime, timedelta
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import Mock, AsyncMock
 
-from evdutyapi import Terminal, ChargingStatus, ChargingSession, NetworkInfo
-from evdutyapi.charging_profile import ChargingProfile
+from evdutyapi import ChargingProfile, Terminal, ChargingStatus, ChargingSession, NetworkInfo
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import UnitOfElectricCurrent
 from homeassistant.core import HomeAssistant

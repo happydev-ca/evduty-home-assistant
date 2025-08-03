@@ -3,7 +3,6 @@ from http import HTTPStatus
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import Mock, AsyncMock
 
-from aiohttp import RequestInfo
 from evdutyapi import EVDutyApi, Station, Terminal, EVDutyApiInvalidCredentialsError, EVDutyApiError
 from homeassistant.exceptions import ConfigEntryAuthFailed
 
@@ -52,7 +51,9 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
         api = Mock(EVDutyApi)
         coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
-        api.async_get_stations.side_effect = EVDutyApiInvalidCredentialsError(status=HTTPStatus.BAD_REQUEST, request_info=Mock(RequestInfo), history=())
+        response = AsyncMock()
+        response.status = HTTPStatus.BAD_REQUEST
+        api.async_get_stations.side_effect = EVDutyApiInvalidCredentialsError(AsyncMock())
 
         with self.assertRaises(ConfigEntryAuthFailed):
             await coordinator._async_update_data()
@@ -65,7 +66,9 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
         previous_data = {"123": 'anything'}
         coordinator.data = previous_data
 
-        api.async_get_stations.side_effect = EVDutyApiError(status=HTTPStatus.UNAUTHORIZED, request_info=Mock(RequestInfo), history=())
+        response = AsyncMock()
+        response.status = HTTPStatus.UNAUTHORIZED
+        api.async_get_stations.side_effect = EVDutyApiError(response)
 
         terminals = await coordinator._async_update_data()
 
@@ -77,7 +80,9 @@ class TestEVDutyCoordinator(IsolatedAsyncioTestCase):
         api = Mock(EVDutyApi)
         coordinator = EVDutyCoordinator(hass=hass, config_entry=config_entry, api=api)
 
-        api.async_get_stations.side_effect = EVDutyApiError(status=HTTPStatus.BAD_REQUEST, request_info=Mock(RequestInfo), history=())
+        response = AsyncMock()
+        response.status = HTTPStatus.BAD_REQUEST
+        api.async_get_stations.side_effect = EVDutyApiError(AsyncMock())
 
         with self.assertRaises(ConnectionError):
             await coordinator._async_update_data()
